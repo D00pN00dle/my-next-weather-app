@@ -1,7 +1,8 @@
 {
   "name": "my-next-weather-app",
   "version": "0.1.0",
-  "private": false,
+  "homepage": "https://d00pn00dle.github.io/my-next-weather-app",
+
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build && next export",
