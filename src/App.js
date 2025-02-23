@@ -18,6 +18,7 @@ window.addEventListener('load', (event) => {
 
 //const dataObj = await formattedWeatherDataObj(); // Wait for the async function to resolve
 const weatherCodeData = new weatherCode();
+const prodPrefix = process.env.NODE_ENV === 'production' ? '/my-next-weather-app' : '';
 
 //console.log('Final Weather Data:', dataObj);
 
@@ -567,7 +568,7 @@ const SelectedDay = () => {
         <ul className="list-unstyled col-md-6 col-12 listItemBorder mb-0 p-0 pe-2">
           <li className="d-flex flex-row align-items-center py-2">
             <Image 
-            src='/images/hot.png' 
+            src={prodPrefix + '/images/hot.png'} 
             className="me-1 mw-img" 
             height={512} 
             width={512} 
@@ -578,7 +579,7 @@ const SelectedDay = () => {
           </li>
           <li className="d-flex flex-row align-items-center py-2">
             <Image 
-              src='/images/cold.png' 
+              src={prodPrefix + '/images/cold.png'} 
               className="me-1 mw-img" 
               height={512} 
               width={512} 
@@ -589,7 +590,7 @@ const SelectedDay = () => {
           </li>
           <li className="d-flex flex-row align-items-center py-2">
             <Image 
-                src='/images/sunrise.png' 
+                src={prodPrefix + '/images/sunrise.png'} 
                 className="me-1 mw-img" 
                 height={512} 
                 width={512} 
@@ -600,7 +601,7 @@ const SelectedDay = () => {
           </li>
           <li className="d-flex flex-row align-items-center py-2">
             <Image 
-                src='/images/sunset.png' 
+                src={prodPrefix + '/images/sunset.png'} 
                 className="me-1 mw-img" 
                 height={512} 
                 width={512} 
@@ -613,7 +614,7 @@ const SelectedDay = () => {
         <ul className='list-unstyled col-md-6 col-12 listItemBorder listItemBorderAll mb-0 p-0'>
           <li className="d-flex flex-row align-items-center py-2">
             <Image 
-                src='/images/sunclouds.png' 
+                src={prodPrefix + '/images/sunclouds.png'} 
                 className="me-1 mw-img" 
                 height={512} 
                 width={512} 
@@ -624,7 +625,7 @@ const SelectedDay = () => {
             </li>
             <li className="d-flex flex-row align-items-center py-2">
               <Image 
-                src='/images/humidity.png' 
+                src={prodPrefix + '/images/humidity.png'} 
                 className="me-1 mw-img" 
                 height={512} 
                 width={512} 
@@ -635,7 +636,7 @@ const SelectedDay = () => {
             </li>
             <li className="d-flex flex-row align-items-center py-2">
               <Image 
-                src='/images/drop.png' 
+                src={prodPrefix + '/images/drop.png'} 
                 className="me-1 mw-img" 
                 height={512} 
                 width={512} 
@@ -646,7 +647,7 @@ const SelectedDay = () => {
             </li>
             <li className="d-flex flex-row align-items-center py-2">
               <Image 
-                src='/images/wind-flag.png' 
+                src={prodPrefix + '/images/wind-flag.png'} 
                 className="me-1 mw-img" 
                 height={512} 
                 width={512} 
@@ -703,7 +704,7 @@ const SelectedHour = () => {
           <ul className="list-unstyled col-md-6 col-12 listItemBorder mb-0 p-0 px-2">
             <li className="d-flex flex-row align-items-center py-2">
               <Image 
-              src='/images/sunclouds.png' 
+              src={prodPrefix + '/images/sunclouds.png'} 
               className="me-1 mw-img" 
               height={512} 
               width={512} 
@@ -714,7 +715,7 @@ const SelectedHour = () => {
             </li>
             <li className="d-flex flex-row align-items-center py-2">
               <Image 
-              src='/images/drop.png' 
+              src={prodPrefix + '/images/drop.png'} 
               className="me-1 mw-img" 
               height={512} 
               width={512} 
@@ -725,7 +726,7 @@ const SelectedHour = () => {
             </li>
             <li className="d-flex flex-row align-items-center py-2">
               <Image 
-              src='/images/humidity.png' 
+              src={prodPrefix + '/images/humidity.png'} 
               className="me-1 mw-img" 
               height={512} 
               width={512} 
@@ -738,7 +739,7 @@ const SelectedHour = () => {
           <ul className="list-unstyled col-md-6 col-12 listItemBorder listItemBorderAll mb-0 p-0 px-2">
             <li className="d-flex flex-row align-items-center py-2">
               <Image 
-              src='/images/rainbow.png' 
+              src={prodPrefix + '/images/rainbow.png'} 
               className="me-1 mw-img" 
               height={512} 
               width={512} 
@@ -749,7 +750,7 @@ const SelectedHour = () => {
             </li>
             <li className="d-flex flex-row align-items-center py-2">
               <Image 
-              src='/images/wind-flag.png' 
+              src={prodPrefix + '/images/wind-flag.png'} 
               className="me-1 mw-img" 
               height={512} 
               width={512} 
@@ -760,7 +761,7 @@ const SelectedHour = () => {
             </li>
             <li className="d-flex flex-row align-items-center py-2">
               <Image 
-              src='/images/doublecloud.png' 
+              src={prodPrefix + '/images/doublecloud.png'} 
               className="me-1 mw-img" 
               height={512} 
               width={512} 
@@ -892,7 +893,7 @@ const TodaysConditions = () => {
         <ul className="list-unstyled col-lg-6 col-12 listItemBorder mb-0 p-0 pe-2">
           <li className="d-flex flex-row align-items-center py-2">
             <Image 
-            src='/images/hot.png' 
+            src={prodPrefix + '/images/hot.png'} 
             className="me-1 mw-img" 
             height={512} 
             width={512} 
@@ -903,7 +904,7 @@ const TodaysConditions = () => {
           </li>
           <li className="d-flex flex-row align-items-center py-2">
             <Image 
-              src='/images/cold.png' 
+              src={prodPrefix + '/images/cold.png'} 
               className="me-1 mw-img" 
               height={512} 
               width={512} 
@@ -914,7 +915,7 @@ const TodaysConditions = () => {
           </li>
           <li className="d-flex flex-row align-items-center py-2">
             <Image 
-                src='/images/sunrise.png' 
+                src={prodPrefix + '/images/sunrise.png'} 
                 className="me-1 mw-img" 
                 height={512} 
                 width={512} 
@@ -925,7 +926,7 @@ const TodaysConditions = () => {
           </li>
           <li className="d-flex flex-row align-items-center py-2">
             <Image 
-                src='/images/sunset.png' 
+                src={prodPrefix + '/images/sunset.png'} 
                 className="me-1 mw-img" 
                 height={512} 
                 width={512} 
@@ -938,7 +939,7 @@ const TodaysConditions = () => {
         <ul className='list-unstyled col-lg-6 col-12 listItemBorder listItemBorderAll mb-0 p-0'>
           <li className="d-flex flex-row align-items-center py-2">
             <Image 
-                src='/images/sunclouds.png' 
+                src={prodPrefix + '/images/sunclouds.png'} 
                 className="me-1 mw-img" 
                 height={512} 
                 width={512} 
@@ -949,7 +950,7 @@ const TodaysConditions = () => {
             </li>
             <li className="d-flex flex-row align-items-center py-2">
               <Image 
-                src='/images/humidity.png' 
+                src={prodPrefix + '/images/humidity.png'} 
                 className="me-1 mw-img" 
                 height={512} 
                 width={512} 
@@ -960,7 +961,7 @@ const TodaysConditions = () => {
             </li>
             <li className="d-flex flex-row align-items-center py-2">
               <Image 
-                src='/images/drop.png' 
+                src={prodPrefix + '/images/drop.png'} 
                 className="me-1 mw-img" 
                 height={512} 
                 width={512} 
@@ -971,7 +972,7 @@ const TodaysConditions = () => {
             </li>
             <li className="d-flex flex-row align-items-center py-2">
               <Image 
-                src='/images/wind-flag.png' 
+                src={prodPrefix + '/images/wind-flag.png'} 
                 className="me-1 mw-img" 
                 height={512} 
                 width={512} 
