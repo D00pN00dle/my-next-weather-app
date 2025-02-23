@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     output: 'export',
-    distDir: 'build',
+    distDir: 'out',
     basePath: '/my-next-weather-app',
     assetPrefix: '/my-next-weather-app/',
     images: {
