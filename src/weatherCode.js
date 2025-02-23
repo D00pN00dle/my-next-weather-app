@@ -1,32 +1,34 @@
+const prodPrefix = process.env.NODE_ENV === 'production' ? '/my-next-weather-app' : '';
+
 export class weatherCode {
     constructor() {
         this.weatherCodes = {
             0: {
                 description: 'Clear',
                 image: {
-                    day: '/images/sun.png',
-                    night: '/images/nightclear.png',
+                    day: prodPrefix + '/images/sun.png',
+                    night: prodPrefix + '/images/nightclear.png',
                 }
             },
             1: {
                 description: 'Mainly clear',
                 image: {
-                    day: '/images/cloudy.png',
-                    night: '/images/nightcloud.png',
+                    day: prodPrefix + '/images/cloudy.png',
+                    night: prodPrefix + '/images/nightcloud.png',
                 }
             },
             2: {
                 description: 'Partly cloudy',
                 image: {
-                    day: '/images/cloudy.png',
-                    night: '/images/nightcloud.png',
+                    day: prodPrefix + '/images/cloudy.png',
+                    night: prodPrefix + '/images/nightcloud.png',
                 }
             },
             3: {
                 description: 'Overcast',
                 image: {
-                    day: '/images/cloud.png',
-                    night: '/images/cloud.png',
+                    day: prodPrefix + '/images/cloud.png',
+                    night: prodPrefix + '/images/cloud.png',
                 }
             },
             45: {
