@@ -19,8 +19,9 @@ window.addEventListener('load', (event) => {
 //const dataObj = await formattedWeatherDataObj(); // Wait for the async function to resolve
 const weatherCodeData = new weatherCode();
 const prodPrefix = process.env.NODE_ENV === 'production' ? '/my-next-weather-app' : '';
-
+const bgImage = 'url(' + prodPrefix + '/images/sky.jpg)';
 //console.log('Final Weather Data:', dataObj);
+
 
 const getDay = (dateString) => {
 
@@ -55,7 +56,7 @@ return matchingObjects;
 const convertTime = (dateTimeString) => {
       // Extract the time part from the string
       const timePart = dateTimeString.split('T')[1]; // "18:00"
-      const [hours] = timePart.split(':').map(Number); // Get only the hours
+      const [hours, minutes] = timePart.split(':').map(Number); // Get only the hours
   
       // Convert to 12-hour format
       const isPM = hours >= 12;
@@ -63,9 +64,12 @@ const convertTime = (dateTimeString) => {
       const suffix = isPM ? 'PM' : 'AM';
   
       // Return only the hour in 12-hour format with suffix
-      return `${hours12} ${suffix}`;
+      if (minutes === 0) {
+        return `${hours12} ${suffix}`;
+      } else {
+      return `${hours12}:${minutes.toString().padStart(2, '0')} ${suffix}`;
+      }
 }
-
 const getWeatherCodeData = (code) => {
   return weatherCodeData.getWeatherCode(code)
 }
@@ -251,8 +255,12 @@ const ApiContextProvider = ({ children }) => {
               locationData.address.town : locationData.address.village ? locationData.address.village : 
               locationData.address.county ? locationData.address.county : locationData.address.state? 
               locationData.address.state : null;
+          const state = locationData.address.state ? locationData.address.state : null;
+          const country = locationData.address.country ? locationData.address.country : null;
           const locationDataObj = {
               city: city,
+              state: state,
+              country: locationData.address.country,
               id: locationData.osm_type + '-' + locationData.osm_id,
               coordinates: {
                 latitude: locationData.lat,
@@ -260,9 +268,10 @@ const ApiContextProvider = ({ children }) => {
               },
               address: {...locationData.address}
           };
+          console.log('location data obj:', locationDataObj);
           // Set the state with the fetched data
           setLocationToSave(locationDataObj);
-          setLocation(city);
+          setLocation({city: city, state: state, country: country});
           setCurrentWeather(dataObj.current);
           setDailyArray(dataObj.daily);
           setHourlyArray(dataObj.hourly);
@@ -382,15 +391,14 @@ const HourlyContextProvider = ({ children }) => {
 };
 
 export default function App() {
- 
   return (
     <div className='background-container d-flex flex-column min-h-100 w-100 py-0 mb-auto'>
       <div className="background-grad flex-fill min-h-100">
-      <ApiContextProvider> 
-        <AppContextProvider>
-          <MainAppWrapper />   
-        </AppContextProvider>
-      </ApiContextProvider>
+        <ApiContextProvider> 
+          <AppContextProvider>
+            <MainAppWrapper />   
+          </AppContextProvider>
+        </ApiContextProvider>
       </div>
     </div>
   );
@@ -433,7 +441,8 @@ const MainAppWrapper = () => {
         )}
         <div className="d-flex flex-row justify-content-between align-items-center p-3">
           <div className="p-3">
-            <h2 className="mb-2">{location === null ? "Berlin" : location}</h2>
+            <h2 className="mb-0">{location === null ? "Berlin" : location.city + ','}</h2>
+            <p className="mb-2 fs-4 fw-light">{location.state}</p>
             {(!selectedDayVisible && !selectedHourVisible) && 
             (<p>{date.toLocaleDateString('en-US', 
             { year: 'numeric', month: 'long', day: 'numeric', weekday: 'short', hour: '2-digit', minute: '2-digit'})}</p>)}
@@ -552,18 +561,42 @@ const Menu = () => {
 const SelectedDay = () => {
   const { selectedDayObj, setCurrentVisible, setSelectedDayVisible, setSelectedDayObj } = useContext(AppContext);
   const { unitsObj } = useContext(ApiContext);
-  const date = new Date(selectedDayObj.time)
+  const parts = selectedDayObj.time.split('-'); // Split the date string
+  const year = parseInt(parts[0], 10);
+  const month = parseInt(parts[1], 10) - 1; // Month is 0-based
+  const day = parseInt(parts[2], 10);
+  
+  // Create a date object using local time
+  const date = new Date(year, month, day);
   const formattedDate = date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', weekday: 'short' });
-  //console.log('selectedDay data:', selectedDayObj);
+  console.log('selectedDay data:', selectedDayObj, 'date:', date, 'formattedDate:', formattedDate);
   const BackToCurrent = () => {
     setSelectedDayObj(null);
     setSelectedDayVisible(false);
     setCurrentVisible(true);
   };
+  const weatherCodeObj = getWeatherCodeData(selectedDayObj.weather_code);
+  const weatherIcon = getWeatherIcon(selectedDayObj, weatherCodeObj);
   return (
-    <div className="d-flex flex-column px-3">
+    <div className="d-flex flex-column pb-3 px-3">
     <div className="m-auto container-lg mw-960px h-max-c card glass text-white mt-0 px-3 py-2 mb-5">
-      <h2 className="mb-4">Conditions for: {formattedDate}</h2>
+    <h2 className="mb-4">Conditions for: {formattedDate}</h2> 
+      <div className="d-flex flex-md-row flex-column p-4 mb-5">
+          <div className="d-flex flex-row col-md-6 col-12 p-2 justify-content-center text-white align-items-center"> 
+            <Image 
+            src={weatherIcon} 
+            className="me-3" 
+            height={512} 
+            width={512} 
+            style={{width: 'auto', height: 'auto', objectFit: 'contain', maxWidth: 50+'%'}} 
+            alt="weather icon" />
+          </div>
+          <div className="d-flex ms-auto col-md-5 col-12 justify-content-start align-items-center text-center text-white p-2">
+            <div className="d-flex flex-column fs-3 fw-light m-auto">
+              <p>{weatherCodeObj.description}</p>
+            </div>
+          </div>
+        </div>
       <div className="d-flex flex-md-row flex-column w-auto">
         <ul className="list-unstyled col-md-6 col-12 listItemBorder mb-0 p-0 pe-2">
           <li className="d-flex flex-row align-items-center py-2">
@@ -691,7 +724,7 @@ const SelectedHour = () => {
             width={512} 
             style={{width: 'auto', height: 'auto', objectFit: 'contain', maxWidth: 50+'%'}} 
             alt="weather icon" />
-            <p className="fs-vw-1">{parseInt(selectedHourObj.temperature_2m)}</p>
+            <p className="fs-vw-1">{parseInt(selectedHourObj.temperature_2m) + unitsObj.temperature}</p>
          </div>
           <div className="d-flex m-auto col-md-5 justify-content-center align-items-center text-center text-white p-5">
             <div className="d-flex flex-column fs-3 fw-light my-auto">
@@ -788,11 +821,10 @@ const CurrentWeather = () => {
   const lowTemp = parseInt(dailyData[0].temperature_2m_min);
 
   //console.log('CURRENT TEMP VALUE IS:', value.temperature_2m, 'context value:', value, 'weather code obj:', weatherIcon);
-
   return(
     <div className="d-flex row text-white h-100 p-3" id="currentWeatherWrapper">
       <div className="p-3">
-        <div className="d-flex flex-md-row flex-column card glass p-2 mb-5">
+        <div className="d-flex flex-md-row flex-column card glass p-4 mb-5">
           <div className="d-flex flex-row col-md-6 col-12 p-2 justify-content-center text-white align-items-center"> 
             <Image 
             src={weatherIcon} 
@@ -885,7 +917,7 @@ const TodaysConditions = () => {
   const { dailyData } = useContext(DailyContext);
   const { unitsObj } = useContext(ApiContext);
   const currentDay = dailyData[0];
-  //console.log('TodaysConditions - currentDay:', currentDay)
+  console.log('TodaysConditions - currentDay:', currentDay)
   return (
     <div className="m-auto container-sm h-max-c card glass text-white mt-0 px-3 py-2 mb-5">
       <h2>Today's Conditions</h2>
